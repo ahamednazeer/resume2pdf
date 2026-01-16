@@ -14,7 +14,7 @@ templates = Jinja2Templates(directory="templates")
 @router.post("/download/{rendering_token}")
 def download_resume(
     rendering_token: Annotated[str, Path(min_length=24, max_length=24, pattern="^[a-zA-Z0-9]{24}$")],
-    image_size: Annotated[int, Query(gt=0)] = 1500,
+    image_size: Annotated[int, Query(gt=0)] = 3000,
     extension: Annotated[Extension, Query()] = Extension.jpeg,
     page_size: Annotated[PageSize, Query()] = PageSize.a4,
 ):
