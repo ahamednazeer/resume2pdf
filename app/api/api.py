@@ -49,7 +49,7 @@ def download_resume(
     )
 
 
-@router.get("/", response_class=HTMLResponse, include_in_schema=False)
+@router.api_route("/", methods=["GET", "HEAD"], response_class=HTMLResponse, include_in_schema=False)
 def index(request: Request):
     """
     Render the main index page.
