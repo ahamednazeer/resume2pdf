@@ -18,6 +18,18 @@ class PageSize(str, Enum):
     legal = "legal"        # 8.5" × 14" = 612 × 1008 points
 
 
+class Format(str, Enum):
+    pdf = "pdf"
+    docx = "docx"
+
+
+class Quality(str, Enum):
+    low = "low"        # JPEG 50%
+    medium = "medium"  # JPEG 75%
+    high = "high"      # JPEG 95%
+    max = "max"        # PNG (Lossless)
+
+
 # Page dimensions in points (width, height)
 PAGE_DIMENSIONS = {
     PageSize.a4: (595, 842),

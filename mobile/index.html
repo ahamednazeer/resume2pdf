@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Resume.io to PDF</title>
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+
+<body>
+  <div class="container">
+    <h1 class="title">Resume.io to PDF</h1>
+    <form method="post" class="resume_form" id="downloadForm">
+      <input type="text" class="resume" name="rendering_token" placeholder="Enter your resume `renderingToken`"
+        aria-label="Id" maxlength="24" autocomplete="off">
+      <span class="error">Your resume `renderingToken` must be a 24-character alphanumeric string</span>
+
+      <div class="select-wrapper">
+        <label class="select-label" for="page_size">Page Size</label>
+        <select id="page_size" name="page_size" class="page-size-select">
+          <option value="a4" selected>A4 (210mm × 297mm)</option>
+          <option value="letter">Letter (8.5" × 11")</option>
+          <option value="legal">Legal (8.5" × 14")</option>
+          <option value="original">Original (from resume.io)</option>
+        </select>
+      </div>
+
+      <div class="row">
+        <div class="select-wrapper" style="flex: 1;">
+          <label class="select-label" for="quality">Quality</label>
+          <select id="quality" name="quality" class="page-size-select">
+            <option value="medium">Medium</option>
+            <option value="low">Low (Small file)</option>
+            <option value="high">High</option>
+            <option value="max" selected>Max (Lossless)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="select-wrapper" style="flex: 1;">
+          <label class="select-label" for="password">Password (Optional)</label>
+          <input type="password" id="password" name="password" class="resume" style="padding: 1rem; margin: 0;"
+            placeholder="Set PDF password">
+        </div>
+      </div>
+
+      <button id="submit-btn" class="btn" type="submit">
+        <span id="submit-text">Download</span>
+        <svg id="loader" width="23" height="23" stroke="#fff" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <g class="spinner_V8m1">
+            <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle>
+          </g>
+        </svg>
+      </button>
+
+      <button id="previewBtn" class="btn btn-secondary" type="button">Preview</button>
+
+      <!-- Progress indicator -->
+      <div id="progressContainer" class="progress-container" style="display: none;">
+        <div class="progress-bar">
+          <div id="progressFill" class="progress-fill"></div>
+        </div>
+        <span id="progressText" class="progress-text">Downloading...</span>
+      </div>
+    </form>
+
+    <div class="history-container" style="display: none;">
+      <h3>Recent Downloads</h3>
+      <div id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- Preview Modal -->
+  <div id="previewModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closePreviewBtn">&times;</span>
+      <h3>Preview (Page 1)</h3>
+      <div class="preview-container">
+        <div id="previewLoader" style="display: none; padding: 2rem; text-align: center;">
+          <svg width="40" height="40" stroke="#000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <g class="spinner_V8m1">
+              <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle>
+            </g>
+          </svg>
+          <p>Loading preview...</p>
+        </div>
+        <img id="previewImage" src="" alt="Resume Preview" style="display: none;" />
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+</html>

@@ -21,9 +21,17 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 3rem;
+            gap: 2rem;
+            padding: 2rem;
         }
 
+        .row {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+        }
+
+        /* ... original styles ... */
         .links {
             position: absolute;
             top: 0;
@@ -35,6 +43,7 @@
 
         .title {
             font-size: 3rem;
+            margin-bottom: 0.5rem;
         }
 
         .resume_form {
@@ -52,6 +61,7 @@
             border: 1px solid #666666;
             font-family: "Inter", sans-serif;
             font-size: 1rem;
+            box-sizing: border-box;
         }
 
         .select-wrapper {
@@ -79,6 +89,7 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23666666' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1rem center;
+            box-sizing: border-box;
         }
 
         .page-size-select:focus {
@@ -102,6 +113,17 @@
             margin-top: 0.5rem;
         }
 
+        .btn-secondary {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ccc;
+            margin-top: 0;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e0e0e0;
+        }
+
         #loader {
             display: none;
         }
@@ -115,6 +137,73 @@
 
         .error-border {
             border: 1px solid red;
+        }
+
+        /* History Styles */
+        .history-container {
+            width: 100%;
+            max-width: 30rem;
+            margin-top: 2rem;
+        }
+
+        .history-container h3 {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.5rem;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem;
+            border-bottom: 1px solid #f5f5f5;
+            cursor: pointer;
+        }
+
+        .history-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 100;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 90%;
+            max-height: 90vh;
+            overflow: auto;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .preview-container img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
         }
 
         .spinner_V8m1 {
@@ -206,28 +295,50 @@
 
 <body>
     <div class="container">
-        <div class="links">
-            <iframe
-                src="https://ghbtns.com/github-btn.html?user=felipeall&repo=resumeio-to-pdf&type=star&count=true&size=large"
-                frameborder="0" scrolling="0" width="130" height="30" title="GitHub"></iframe>
-            <a href="https://www.buymeacoffee.com/felipeall" target="_blank"><img
-                    src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee"
-                    style="height: 40px !important;width: 160px !important;"></a>
-        </div>
         <h1 class="title">Resume.io to PDF</h1>
         <form method="post" class="resume_form" id="downloadForm">
-            <input type="text" class="resume" name="rendering_token" placeholder="Enter your resume \`renderingToken\`"
+            <input type="text" class="resume" name="rendering_token" placeholder="Enter your resume `renderingToken`"
                 aria-label="Id" maxlength="24">
-            <span class="error">Your resume \`renderingToken\` must be a 24-character alphanumeric string</span>
+            <span class="error">Your resume `renderingToken` must be a 24-character alphanumeric string</span>
             <div class="select-wrapper">
                 <label class="select-label" for="page_size">Page Size</label>
                 <select id="page_size" name="page_size" class="page-size-select">
                     <option value="a4" selected>A4 (210mm × 297mm)</option>
                     <option value="letter">Letter (8.5" × 11")</option>
                     <option value="legal">Legal (8.5" × 14")</option>
+
                     <option value="original">Original (from resume.io)</option>
                 </select>
             </div>
+
+            <div class="row">
+                <div class="select-wrapper" style="flex: 1;">
+                    <label class="select-label" for="quality">Quality</label>
+                    <select id="quality" name="quality" class="page-size-select">
+                        <option value="medium">Medium</option>
+                        <option value="low">Low (Small file)</option>
+                        <option value="high">High</option>
+                        <option value="max" selected>Max (Lossless)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="select-wrapper" style="flex: 1;">
+                    <label class="select-label" for="format">Format</label>
+                    <select id="format" name="format" class="page-size-select">
+                        <option value="pdf" selected>PDF (Best)</option>
+                        <option value="docx">Word (DOCX)</option>
+                    </select>
+                </div>
+
+                <div class="select-wrapper" style="flex: 1;">
+                    <label class="select-label" for="password">Password (Optional)</label>
+                    <input type="password" id="password" name="password" class="resume"
+                        style="padding: 1rem; margin: 0;" placeholder="Set PDF password">
+                </div>
+            </div>
+
             <button id="submit-btn" class="btn" type="submit"><span id="submit-text">Download</span>
                 <svg id="loader" width="23" height="23" stroke="#fff" viewBox="0 0 24 24"
                     xmlns="http://www.w3.org/2000/svg">
@@ -236,24 +347,145 @@
                     </g>
                 </svg>
             </button>
+
+            <button id="previewBtn" class="btn btn-secondary" type="button">Preview</button>
         </form>
+
+        <div class="history-container" style="display: none;">
+            <h3>Recent Downloads</h3>
+            <div id="historyList"></div>
+        </div>
     </div>
+
+    <!-- Preview Modal -->
+    <div id="previewModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closePreview()">&times;</span>
+            <h3>Preview (Page 1)</h3>
+            <div class="preview-container">
+                <div id="previewLoader" style="display: none; padding: 2rem; text-align: center;">
+                    <svg width="40" height="40" stroke="#000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <g class="spinner_V8m1">
+                            <circle cx="12" cy="12" r="9.5" fill="none" stroke-width="3"></circle>
+                        </g>
+                    </svg>
+                    <p>Loading preview...</p>
+                </div>
+                <img id="previewImage" src="" alt="Resume Preview" style="display: none;" />
+            </div>
+        </div>
+    </div>
+
 
 
     <script>
         window.addEventListener('pageshow', function () {
             document.getElementById('loader').style.display = 'none';
             document.getElementById('submit-text').style.display = 'block';
+            resetUI();
+            updateHistoryList();
         });
 
         const downloadForm = document.getElementById("downloadForm");
         const errorMessage = document.querySelector('.error');
         const inputField = document.querySelector('.resume');
+        const historyList = document.getElementById("historyList");
+        const historyContainer = document.querySelector(".history-container");
+        const previewModal = document.getElementById("previewModal");
+        const previewImage = document.getElementById("previewImage");
+        const previewLoader = document.getElementById("previewLoader");
+
+        function resetUI() {
+            document.getElementById('submit-text').style.display = 'block';
+            document.getElementById('loader').style.display = 'none';
+        }
+
+        function addToHistory(token) {
+            let history = JSON.parse(localStorage.getItem('resume_history') || '[]');
+            // Remove if exists (to move to top)
+            history = history.filter(h => h.token !== token);
+            // Add to top
+            history.unshift({
+                token: token,
+                date: new Date().toLocaleDateString()
+            });
+            // Limit to 5
+            if (history.length > 5) history.pop();
+            localStorage.setItem('resume_history', JSON.stringify(history));
+            updateHistoryList();
+        }
+
+        function updateHistoryList() {
+            const history = JSON.parse(localStorage.getItem('resume_history') || '[]');
+            if (history.length === 0) {
+                historyContainer.style.display = 'none';
+                return;
+            }
+            historyContainer.style.display = 'block';
+            historyList.innerHTML = history.map(item => `
+                <div class="history-item" onclick="loadToken('${item.token}')">
+                    <span>${item.token}</span>
+                    <span style="font-size: 0.8rem; color: #999;">${item.date}</span>
+                </div>
+            `).join('');
+        }
+
+        function loadToken(token) {
+            inputField.value = token;
+        }
+
+        function closePreview() {
+            previewModal.style.display = 'none';
+            previewImage.src = '';
+            previewImage.style.display = 'none';
+            previewLoader.style.display = 'none';
+        }
+
+        document.getElementById("previewBtn").addEventListener("click", async function () {
+            const rendering_token = new FormData(downloadForm).get('rendering_token').toString();
+            const regex = /^[a-zA-Z0-9]{24}$/;
+
+            if (!regex.test(rendering_token)) {
+                // Trigger validation error
+                errorMessage.style.display = 'block';
+                inputField.classList.add('error-border');
+                inputField.classList.remove('shake');
+                setTimeout(() => inputField.classList.add('shake'), 100);
+                return;
+            }
+
+            previewModal.style.display = 'flex';
+            previewImage.style.display = 'none';
+            previewLoader.style.display = 'block';
+
+            try {
+                const response = await fetch('/preview/' + rendering_token);
+                if (response.ok) {
+                    const blob = await response.blob();
+                    previewImage.onload = function () {
+                        previewLoader.style.display = 'none';
+                        previewImage.style.display = 'block';
+                    };
+                    previewImage.src = URL.createObjectURL(blob);
+                } else {
+                    alert("Could not load preview. Token might be invalid.");
+                    closePreview();
+                }
+            } catch (e) {
+                alert("Error loading preview");
+                closePreview();
+            }
+        });
 
         downloadForm.addEventListener("submit", function (e) {
             e.preventDefault();
-            const rendering_token = new FormData(downloadForm).get('rendering_token').toString();
+            const formData = new FormData(downloadForm);
+            const rendering_token = formData.get('rendering_token').toString();
             const page_size = document.getElementById('page_size').value;
+            const quality = document.getElementById('quality').value;
+            const password = document.getElementById('password').value;
+            const format = document.getElementById('format').value;
+
             const regex = /^[a-zA-Z0-9]{24}$/;
 
             if (!regex.test(rendering_token)) {
@@ -271,11 +503,22 @@
                 inputField.classList.remove('error-border', 'shake');
             }
 
-            downloadForm.action = '/download/' + rendering_token + '?page_size=' + page_size;
+            // Add to history
+            addToHistory(rendering_token);
+
+            let actionUrl = '/download/' + rendering_token + '?page_size=' + page_size + '&quality=' + quality + '&format=' + format;
+            if (password) {
+                actionUrl += '&password=' + encodeURIComponent(password);
+            }
+
+            downloadForm.action = actionUrl;
             document.getElementById('submit-text').style.display = 'none';
             document.getElementById('loader').style.display = 'block';
             this.submit();
         });
+
+        // Initial load
+        updateHistoryList();
     </script>
 </body>
 
